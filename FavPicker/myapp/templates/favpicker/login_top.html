@@ -1,0 +1,14 @@
+{% extends 'favpicker/base.html' %}
+
+{% block content %}
+
+
+  <div class="container">
+    <p class="lead">FavPickerを使えばTwitterで「いいね」をした画像/動画付きツイートを一括で保存することができます。</p>
+    <p class="lead">「TLでいいねした画像を一度に保存したい」<br />「好きな絵師の画像を一度にDLしたい」<br />「推しの画像を集めたい」</p>
+    <p class="lead">といった場合に便利なツールです。</p>
+    <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'social:begin' 'twitter' %}'">Twitterアカウントでログイン</button>
+  </div>
+
+
+{% endblock %}

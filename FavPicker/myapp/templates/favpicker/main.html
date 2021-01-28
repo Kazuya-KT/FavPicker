@@ -1,0 +1,26 @@
+{% extends 'favpicker/base.html' %}
+
+{% block result %}
+
+<div class="user_auth_data">
+    <p>アカウント<b>【＠{{ user.access_token.screen_name }}】</b>にてログイン中</p>
+</div>
+
+<form class="form-group" action={% url "favpicker:pic_dl" %} method="POST">
+    <p>ツイート数を指定してダウンロードボタンをクリックするとDLが開始されます。</p>
+    <input type="hidden" name="user_id" value="{{ user.access_token.user_id }}">
+    <input type="hidden" name="auth_time" value="{{ user.extra_data.auth_time }}">
+    <div class= "col-xs-1 form-control-sm mb-2 mr-sm-2" id="inlineFormInputName2">
+        {% csrf_token %}
+        {{ count }}
+    </div>
+    <div class="col-auto">
+        <input type="submit" class="btn btn-primary mb-2" value="ダウンロード開始">
+    </div>
+</form>
+
+<div>
+    <a href="/favpicker/logout"><button type="button" class="btn btn-outline-secondary" >ログアウト</button></a>
+</div>
+
+{% endblock %}

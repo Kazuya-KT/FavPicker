@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<!-- Bootstrap4 -->
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<!-- Bootstrap4 -->
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FavPicker</title>
+    <link rel="stylesheet" href="{% static 'favpicker/css/style.css' %}" >
+    <link rel="stylesheet" href="{% static 'favpicker/css/bootstrap.min.css' %}">
+    <script src="{% static 'favpicker/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm navbar-light bg-info fixed-top">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ml-auto">
+        <li class="nav-item active">
+            <router-link class="nav-link" to="/">TOP</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link class="nav-link" to="/About">About</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link class="nav-link" to="/qa">Q&A</router-link>
+        </li>
+    </ul>
+    </div>
+</nav>
+<div class="jumbotron jumbotron-fluid container-overviews">
+    <br>
+    <div class="border border-white rounded">
+        <img src="{% static "favpicker/img/heart.svg" %}">
+        <h1 class="display-3">FavPicker</h1>
+    </div>
+    {% block content %}
+    {% endblock content %}
+
+    {% block result %}
+    {% endblock result %}
+
+    {% block logout %}
+    {% endblock logout %}
+
+</div>
+
+<!-- Footer -->
+
+<footer class="page-footer font-small">
+
+<!-- Copyright -->
+<div class="text-center py-3">
+    © 2020 <a href="https://favpicker.com/"> favpicker.com</a>
+</div>
+<!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
+</body>
+</html>
