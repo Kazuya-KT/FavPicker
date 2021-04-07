@@ -3,8 +3,10 @@ import sys
 import pprint
 import ssl
 import urllib.request
+import requests
 from requests_oauthlib import OAuth1Session  # OAuthのライブラリの読み込み
 from . import api_settings  # 認証情報
+import boto3
 
 CK = api_settings.CON_KEY
 CS = api_settings.CON_SECRET
@@ -72,30 +74,32 @@ def movie_or_photo(dl_value, user_id, max_id):
     global max_id_value
     max_id_value = id_json[len(id_json) - 1]["id_str"]
     print(max_id_value)
-    pprint.pprint(list(set(urls)))
+    #pprint.pprint(list(set(urls)))
     return urls
 
 #現在は上部階層の「image」「movie」に保存されるようになっているがS3へバケットを自動生成して保存するように変更する
-def dl_images(dl_url):
+def dl_images(dl_url, bucket_path):
     try:
+        session = boto3.Session()
+        s3 = session.resource('s3')
+        bucket = s3.Bucket(bucket_path)
         for url in dl_url:
             name = url.split("/")
             image_file_path = "./image/" + name[-1]
             movie_file_path = "./movie/" + name[-1]
             if url.endswith(('jpg', 'png')):
-                with urllib.request.urlopen(url) as web_file, open(image_file_path, "wb") as save_file:
-                    save_file.write(web_file.read())
-                    print(image_file_path)
+                res = requests.get(url + ":orig", stream=True)
+                bucket.upload_fileobj(res.raw, image_file_path)
+                print(image_file_path)
             elif url.endswith("mp4"):
-                with urllib.request.urlopen(url) as web_file, open(movie_file_path, "wb") as save_file:
-                    save_file.write(web_file.read())
-                    print(movie_file_path)
+                res = requests.get(url, stream=True)
+                bucket.upload_fileobj(res.raw, movie_file_path)
+                print(movie_file_path)
             else: #ここに来るのはmp4?tag=10みたいなファイル
                 re_name = movie_file_path.split(".")
                 rename_movie_file_path = "." + re_name[-2] + ".mp4"
-                with urllib.request.urlopen(url) as web_file, open(rename_movie_file_path, "wb") as save_file:
-                    save_file.write(web_file.read())
-                    print(rename_movie_file_path)
+                bucket.upload_fileobj(res.raw, rename_movie_file_path)
+                print(rename_movie_file_path)
     except TypeError as e:
         print("TypeError:", e)
         sys.exit()
@@ -118,8 +122,7 @@ def dl_main_fanc(count_value, access_token, access_token_seclet, user_id):
             return media_lists
         for l in media_lists:
             dl_lists.append(l)
-            break
     print(dl_lists)
-    dl_images(list(set(dl_lists)))
+    dl_images(list(set(dl_lists)), user_id)
     media_lists_val = 200
     return media_lists_val

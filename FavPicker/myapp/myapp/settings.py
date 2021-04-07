@@ -13,7 +13,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
-from .configs import secret_settings #PASSWORDやAPI_KEYのインポート
+#PASSWORDやAPI_KEYのインポート
+from .configs import secret_settings 
+
+#messages
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +32,7 @@ SECRET_KEY = secret_settings.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -91,6 +95,8 @@ DATABASES = {
         'NAME': 'favpicker',
         'USER': secret_settings.DB_USER,
         'PASSWORD': secret_settings.DB_PASS,
+        'HOST': secret_settings.RDS_ENDPOINT,
+        'PORT': 3306
     }
 }
 
@@ -127,6 +133,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+#add
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert-danger',
+    messages.WARNING: 'alert alert-warning',
+    messages.SUCCESS: 'alert alert-success',
+    messages.INFO: 'alert alert-info'
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -145,4 +158,4 @@ AUTHENTICATION_BACKENDS = [
 #add
 SOCIAL_AUTH_TWITTER_KEY = secret_settings.CON_KEY
 SOCIAL_AUTH_TWITTER_SECRET = secret_settings.CON_SECRET
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/favpicker/main' # リダイレクトURL
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/main' # リダイレクトURL
