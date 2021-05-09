@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('favpicker.urls', 'favpicker'),)),
+    path('main/dl', include(('favpicker.urls', 'favpicker'),)),
     path('favpicker/', include(('social_django.urls', 'social'),)),
 ]

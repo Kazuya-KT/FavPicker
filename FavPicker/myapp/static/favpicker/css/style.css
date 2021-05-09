@@ -1,24 +1,37 @@
 h1, h2 {
     font-weight: normal;
 }
+
 ul {
     list-style-type: none;
     padding: 10;
 }
+
 li {
     display: inline-block;
     margin: 10 20px;
 }
+
 a {
     color: #42b983;
 }
+
 .container-overviews {
     text-align: center;
 }
 
 .border {
-    margin : 3em 0 1.5em ;
-    padding : 1em 1.5em ;
+    margin : 0 auto ;
+    margin-bottom: 1.5em ;
+    padding : 0em 1.5em ;
     line-height : 1.8 ;
-    border : groove 10px #333;
+    border : groove 10px transparent ;
+    /*width: 45%; */
+    max-width: 400px;
 }
+
+.font-google {
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Quicksand', sans-serif;
+}
+

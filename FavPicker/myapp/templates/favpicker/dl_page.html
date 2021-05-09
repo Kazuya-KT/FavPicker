@@ -1,0 +1,26 @@
+{% extends 'favpicker/base.html' %}
+
+{% block dl_view %}
+
+<ul class="col-auto">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}">
+        {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+
+<ul class="col-auto">
+{% if s3_url %}
+    <li>
+        <a class="btn btn-primary mb-2" href={{s3_url}}><button>ダウンロード</button></a>
+    </li>
+{% endif %}
+</ul>
+
+<div>
+    <a href="/logout"><button type="button" class="btn btn-outline-secondary">ログアウト</button></a>
+</div>
+
+{% endblock %}
