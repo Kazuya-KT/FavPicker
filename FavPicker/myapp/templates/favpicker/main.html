@@ -1,13 +1,16 @@
 {% extends 'favpicker/base.html' %}
 
 {% block result %}
-
+<div class="font-google">
 <div class="user_auth_data">
     <p>アカウント<b>【＠{{ user.access_token.screen_name }}】</b>にてログイン中</p>
 </div>
 
 <form class="form-group" action={% url "favpicker:pic_dl" %} method="POST">
-    <p>ツイート数を指定してダウンロードボタンをクリックするとDLが開始されます。</p>
+    <p>ツイート数を指定してダウンロードボタンをクリックするとTwitterから画像/動画の取得が開始されます。</p>
+    <p>ツイート取得数の上限は3000件。gifの場合は動画ファイル（mp4）として取得されます。</p>
+    <p>正常に処理が完了するとダウンロードボタンが表示され、クリックするとzipファイルのダウンロードが行われます。</p>
+    <p>*ツイートの指定数が1000件以上だったり動画ファイルが多いとダウンロードが可能になるまで時間がかかることがあります。</p>
     <input type="hidden" name="user_id" value="{{ user.access_token.user_id }}">
     <input type="hidden" name="auth_time" value="{{ user.extra_data.auth_time }}">
     <div class="col-xs-1 form-control-sm mb-2 mr-sm-2" id="inlineFormInputName2">
@@ -15,24 +18,13 @@
         {{ count }}
     </div>
     <div class="col-auto">
-        <input type="submit" class="btn btn-primary mb-2" value="ダウンロード開始">
+        <input type="submit" class="btn btn-primary mb-2" value="データ取得開始">
     </div>
 </form>
-
-
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }}">
-        {% endif %}
-        {{ message }}
-    </li>
-    {% endfor %}
-</ul>
-
 
 
 <div>
     <a href="/logout"><button type="button" class="btn btn-outline-secondary">ログアウト</button></a>
 </div>
-
+</div>
 {% endblock %}

@@ -5,11 +5,14 @@ from ratelimit.decorators import ratelimit
 from social_django.models import UserSocialAuth
 from django.http import HttpResponse
 from django.contrib import messages
+from django.shortcuts import render
 import boto3
+import botocore
+import json
 
 from .forms import InputCount
 from .getimage import dl_main_fanc
-
+from .lamb_fanc import lambda_invoke
 
 @login_required
 def main_page(request):
@@ -30,10 +33,18 @@ def pic_dl(request):
             auth_time_val = int(request.POST["auth_time"])
             count_val = int(request.POST["count"]) 
             auth_data = UserSocialAuth.objects.get(uid=user_id_val)
-            #s3にバケットを作成
+            #s3にuser_id_valと同じ名前のバケットを作成
             s3 = boto3.resource("s3")
             bucket = s3.Bucket(user_id_val)
-            bucket.create()
+            try: #S3ucketの存在確認
+                s3.meta.client.head_bucket(Bucket=user_id_val)
+            except botocore.exceptions.ClientError:
+                bucket.create(
+                    #S3バケットの場所がアジアパシフィック（東京）でないとこの後のlambdaがアクセス出来ない
+                    CreateBucketConfiguration={
+                        'LocationConstraint':'ap-northeast-1'
+                    }
+                )
             if auth_data.extra_data["auth_time"] == auth_time_val:
                 dl_result = dl_main_fanc(
                 count_val, 
@@ -43,16 +54,37 @@ def pic_dl(request):
                 )
                 #以下はブラウザ上で表示されるように変更予定
                 #DL成功したときはページ遷移なしにする
-                if dl_result == 200:
-                    messages.success(request, 'ダウンロード成功')
-                    return pass #追記予定
+                if dl_result == 200:                    
+                    if lambda_invoke(user_id_val)["StatusCode"] == 200:
+                        messages.success(request, 'データ取得成功')
+                        s3_url = boto3.client("s3").generate_presigned_url(
+                            "get_object",
+                            Params={
+                                "Bucket":"zipdatabucketfavpicker01",
+                                "Key":user_id_val + ".zip"
+                            }
+                        )
+                        
+                        return render(request, "favpicker/dl_page.html", {
+                            "s3_url" : s3_url
+                        })
+                    else: 
+                        messages.error(request, "データ取得エラー")
+                        return render(request, "favpicker/dl_page.html", {
+                            "s3_url" : None
+                        })
                 elif dl_result == 404:
-                    return HttpResponse(f"Failed:{dl_result}：DL可能なツイートが存在しません")
+                    messages.error(request, "DL可能なツイートが存在しません")
+                    return request
                 elif dl_result == 401:
-                    return HttpResponse(f"Failed:{dl_result}：ユーザーが存在しないかAPIの回数制限に抵触しています")
+                    messages.error(request, "ユーザーが存在しないかAPIの回数制限に抵触しています")
+                    return request
                 else:
-                    return HttpResponse(f"Failed:{dl_result}：エラーが発生しました!!!")
+                    messages.error(request, "エラーが発生しました")
+                    return request
         else:
-            #ここも変更する
             form = InputCount()
-        return HttpResponse("エラーが発生しました")
+            messages.error(request, "不明なエラーが発生しました")
+            return request
+
+

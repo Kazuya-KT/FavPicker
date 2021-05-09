@@ -14,35 +14,42 @@
     <link rel="stylesheet" href="{% static 'favpicker/css/style.css' %}" >
     <link rel="stylesheet" href="{% static 'favpicker/css/bootstrap.min.css' %}">
     <script src="{% static 'favpicker/js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,500&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm navbar-light bg-info fixed-top">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto ml-auto">
-        <li class="nav-item active">
-            <router-link class="nav-link" to="/">TOP</router-link>
-        </li>
-        <li class="nav-item">
-            <router-link class="nav-link" to="/About">About</router-link>
-        </li>
-        <li class="nav-item">
-            <router-link class="nav-link" to="/qa">Q&A</router-link>
-        </li>
+<nav class="navbar navbar-dark navbar-expand-lg navbar-light bg-info font-google">
+  <a class="navbar-brand" href="#"><h1>FavPicker</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="http://www.favpicker.com/">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/Kazuya-KT/FavPicker.git">Github</a>
+      </li>
     </ul>
-    </div>
+  </div>
 </nav>
+
+
 <div class="jumbotron jumbotron-fluid container-overviews">
-    <br>
-    <div class="border border-white rounded">
-        <img src="{% static "favpicker/img/heart.svg" %}">
-        <h1 class="display-3">FavPicker</h1>
+    <div class="border border-0">
+        <img src="{% static "favpicker/img/heart3.svg" %}", class="img-fluid", class="rounded-lg">
     </div>
     {% block content %}
     {% endblock content %}
 
     {% block result %}
     {% endblock result %}
+
+    {% block dl_view %}
+    {% endblock dl_view %}
 
     {% block logout %}
     {% endblock logout %}
@@ -53,11 +60,9 @@
 
 <footer class="page-footer font-small">
 
-<!-- Copyright -->
 <div class="text-center py-3">
     © 2021 <a href="https://www.favpicker.com/"> favpicker.com</a>
 </div>
-<!-- Copyright -->
 
 </footer>
 <!-- Footer -->
