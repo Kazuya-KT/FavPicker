@@ -27,12 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#KEY情報は環境変数で管理
 SECRET_KEY = secret_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["favpicker.com"]
 
 
 # Application definition
@@ -89,6 +90,7 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+#KEY情報は環境変数で管理
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -155,8 +157,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-#add
+#add KEY情報は環境変数で管理
 SOCIAL_AUTH_TWITTER_KEY = secret_settings.CON_KEY
 SOCIAL_AUTH_TWITTER_SECRET = secret_settings.CON_SECRET
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/main' # リダイレクトURL
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/main' #TwitterからのリダイレクトURL
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True

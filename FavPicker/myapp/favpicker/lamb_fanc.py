@@ -18,6 +18,6 @@ def lambda_invoke(user_id):
 
     lambda_response = json.loads(response["Payload"].read())
 
-    print(lambda_response)
+    #print(lambda_response)
     
     return lambda_response
