@@ -14,4 +14,4 @@ class InputCount(forms.Form):
 '''
 
 class InputCount(forms.Form):
-    count = forms.IntegerField(max_value=3000, min_value=0, validators=[check_count])
+    count = forms.IntegerField(max_value=3000, min_value=1, validators=[check_count])
