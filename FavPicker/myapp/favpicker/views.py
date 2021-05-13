@@ -14,7 +14,7 @@ from .forms import InputCount
 from .getimage import dl_main_fanc
 from .lamb_fanc import lambda_invoke
 
-@login_required(login_url='/login_top/')
+@login_required
 def main_page(request):
     user = UserSocialAuth.objects.get(user_id=request.user.id)
     count = InputCount
@@ -75,16 +75,17 @@ def pic_dl(request):
                         })
                 elif dl_result == 404:
                     messages.error(request, "DL可能なツイートが存在しません")
-                    return request
+                    return render(request, "favpicker/dl_page.html", {"s3_url" : None})
                 elif dl_result == 401:
                     messages.error(request, "ユーザーが存在しないかAPIの回数制限に抵触しています")
-                    return request
+                    return render(request, "favpicker/dl_page.html", {"s3_url" : None})
                 else:
-                    messages.error(request, "エラーが発生しました")
-                    return request
+                    messages.error(request, "不明なエラーが発生しました")
+                    return render(request, "favpicker/dl_page.html", {"s3_url" : None})
         else:
             form = InputCount()
-            messages.error(request, "不明なエラーが発生しました")
-            return request
+            messages.error(request, "エラーが発生しました。入力内容を確認してください。")
+            return render(request, "favpicker/main.html", {})
+
 
 
