@@ -10,4 +10,5 @@ https://favpicker.com
 
 # Diagram
 
-![aws (7)](https://user-images.githubusercontent.com/61940392/117962454-33a7de00-b35a-11eb-8a06-d0ccc852704f.png)
+![aws (8)](https://user-images.githubusercontent.com/61940392/118083653-3fe37800-b3fa-11eb-9d54-af9024a0266c.png)
+
