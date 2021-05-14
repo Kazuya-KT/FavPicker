@@ -14,7 +14,7 @@ from .forms import InputCount
 from .getimage import dl_main_fanc
 from .lamb_fanc import lambda_invoke
 
-@login_required
+@login_required(login_url="/")
 def main_page(request):
     user = UserSocialAuth.objects.get(user_id=request.user.id)
     count = InputCount
