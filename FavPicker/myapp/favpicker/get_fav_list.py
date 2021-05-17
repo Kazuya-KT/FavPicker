@@ -75,7 +75,7 @@ def movie_or_photo(dl_value, user_id, max_id):
     return urls, with_url, without_url
 
 
-    def dl_list_fanc(count_value, access_token, access_token_seclet, user_id):
+def dl_list_fanc(count_value, access_token, access_token_seclet, user_id):
     global twitter
     twitter = OAuth1Session(CK, CS, access_token, access_token_seclet, user_id)
     dl_lists = []
