@@ -46,6 +46,7 @@ def pic_dl(request):
                     }
                 )
             if auth_data.extra_data["auth_time"] == auth_time_val:
+                #dl_list_fancに変更予定
                 dl_result = dl_main_fanc(
                 count_val, 
                 auth_data.access_token["oauth_token"], 
