@@ -1,7 +1,6 @@
 import json
 import sys
 import ssl
-import urllib.request
 import requests
 from requests_oauthlib import OAuth1Session  # OAuthのライブラリの読み込み
 from . import api_settings  # 認証情報

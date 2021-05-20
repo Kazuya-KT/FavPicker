@@ -1,4 +1,7 @@
-def dl_images(dl_url, bucket_path):
+import boto3
+import requests
+
+def dl_images(dl_lists, bucket_path):
     try:
         s3 = boto3.resource('s3')
         bucket = s3.Bucket(bucket_path)
@@ -20,6 +23,7 @@ def dl_images(dl_url, bucket_path):
                 res = requests.get(url, stream=True)
                 bucket.upload_fileobj(res.raw, rename_movie_file_path)
                 #print(rename_movie_file_path)
+        return 200
     except TypeError as e:
         print("TypeError:", e)
         sys.exit()
