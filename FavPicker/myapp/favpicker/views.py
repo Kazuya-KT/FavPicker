@@ -42,9 +42,7 @@ def pic_dl(request):
             except botocore.exceptions.ClientError:
                 bucket.create(
                     #S3バケットの場所がアジアパシフィック（東京）でないとこの後のlambdaがアクセス出来ない
-                    CreateBucketConfiguration={
-                        'LocationConstraint':'ap-northeast-1'
-                    }
+                    CreateBucketConfiguration={'LocationConstraint':'ap-northeast-1'}
                 )
             if auth_data.extra_data["auth_time"] == auth_time_val:
                 #dl_list_fancに変更予定
