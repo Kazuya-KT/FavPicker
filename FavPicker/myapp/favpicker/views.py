@@ -14,6 +14,7 @@ from .forms import InputCount
 from .getimage import dl_main_fanc
 from .lamb_fanc import lambda_invoke
 
+
 @login_required(login_url="/")
 def main_page(request):
     user = UserSocialAuth.objects.get(user_id=request.user.id)
@@ -41,9 +42,7 @@ def pic_dl(request):
             except botocore.exceptions.ClientError:
                 bucket.create(
                     #S3バケットの場所がアジアパシフィック（東京）でないとこの後のlambdaがアクセス出来ない
-                    CreateBucketConfiguration={
-                        'LocationConstraint':'ap-northeast-1'
-                    }
+                    CreateBucketConfiguration={'LocationConstraint':'ap-northeast-1'}
                 )
             if auth_data.extra_data["auth_time"] == auth_time_val:
                 #dl_list_fancに変更予定
@@ -53,7 +52,6 @@ def pic_dl(request):
                 auth_data.access_token["oauth_token_secret"], 
                 user_id_val
                 )
-                #DL成功したときはページ遷移なしにする
                 if dl_result == 200:                    
                     if lambda_invoke(user_id_val)["StatusCode"] == 200:
                         messages.success(request, 'データ取得成功')
