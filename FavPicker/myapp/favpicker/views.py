@@ -53,8 +53,6 @@ def pic_dl(request):
                 auth_data.access_token["oauth_token_secret"], 
                 user_id_val
                 )
-                #以下はブラウザ上で表示されるように変更予定
-                #DL成功したときはページ遷移なしにする
                 if dl_result == 200:                    
                     if lambda_invoke(user_id_val)["StatusCode"] == 200:
                         messages.success(request, 'データ取得成功')
