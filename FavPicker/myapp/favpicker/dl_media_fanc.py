@@ -27,3 +27,4 @@ def dl_images(dl_lists, bucket_path):
     except TypeError as e:
         print("TypeError:", e)
         sys.exit()
+        return 401
