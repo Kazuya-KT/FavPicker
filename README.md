@@ -1,5 +1,5 @@
 # FavPicker
-An application to DL images and videos from tweets added to your "Favorite" on Twitter. 
+An application to DL images and videos in zipfile from tweets added to your "Favorite" on Twitter.
 
 https://favpicker.com
 
